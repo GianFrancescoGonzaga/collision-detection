@@ -37,7 +37,7 @@ function calcDistance(x1, x2, y1, y2) {
 	return hypotenuse;
 }
 
-class Circle {
+class Particle {
 	constructor(x, y, radius, color) {
 		this.x = x;
 		this.y = y;
@@ -59,11 +59,16 @@ class Circle {
 }
 
 // Implementation
-let circle1;
-let circle2;
+let particles;
 function init() {
-	circle1 = new Circle(300, 300, 100, 'black');
-	circle2 = new Circle(undefined, undefined, 30, 'red');
+	particles = [];
+
+	for (let i = 0; i < 400; i++) {
+		const x = Math.random * innerWidth;
+		const y = Math.random * innerHeight;
+
+		particles.push(new Particle(x, y, 20, 'black'));
+	}
 }
 
 let distance;
@@ -73,17 +78,9 @@ function animate() {
 	requestAnimationFrame(animate);
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	circle2.x = mouse.x;
-	circle2.y = mouse.y;
-
-	circle2.draw();
-	circle1.draw();
-
-	distance =
-		calcDistance(circle1.x, circle2.x, circle1.y, circle2.y) <
-		circle1.radius + circle2.radius;
-
-	distance ? (circle1.color = 'blue') : (circle1.color = 'black');
+	particles.forEach(element => {
+		element.update();
+	});
 }
 
 init();
